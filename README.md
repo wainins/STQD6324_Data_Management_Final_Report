@@ -318,7 +318,7 @@ library(shiny)
 ```
 ---
 
-## ## Running the Project
+## Running the Project
 
 1. Download the **Online Retail II** dataset (XLSX format) from the UCI Machine Learning Repository:
 
