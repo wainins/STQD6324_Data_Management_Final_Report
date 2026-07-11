@@ -1,6 +1,6 @@
 # Online Retail Business Intelligence using Apache Pig, Apache Hive & R Markdown
 <p align="center">
-  <img width="1584" height="396" alt="Image" src="https://github.com/user-attachments/assets/82220dfd-0cb2-4c19-8d0d-2fb1976a4dcf" />
+  <img width="1584" height="396" alt="Image" src="https://github.com/user-attachments/assets/3adf71c6-1db2-43ca-905a-74e5594e0ee1" />
 </p>
 
 <p align="center">
