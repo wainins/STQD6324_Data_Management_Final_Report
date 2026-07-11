@@ -15,7 +15,9 @@
   <a href="#author">Author</a>
 </p>
 
-> A Business Intelligence project using Apache Pig, Apache Hive and R Markdown to analyse the Online Retail II dataset. This project demonstrates a complete workflow from data cleaning and data warehousing to interactive dashboard development for business decision-making.
+> The objective of this project is to analyse the Online Retail II dataset and transform raw transactional data into meaningful business insights using Apache Pig, Apache Hive and R Markdown.
+
+The Online Retail II dataset was selected because it represents real-world e-commerce transactions from a UK-based online retail company. It contains over one million transaction records, making it suitable for demonstrating large-scale data cleaning, data warehousing and business analytics. The dataset also supports the analysis of customer purchasing behaviour, product performance, sales trends and geographic markets.
 
 ---
 
@@ -83,20 +85,38 @@ online-retail-business-intelligence
 ### Online Retail II Dataset 
 ### Source: [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/502/online+retail+ii)↗️
 
-The dataset contains transactional records from an online retail company between **December 2009 and December 2011**.
+The Online Retail II dataset contains transactional records from a UK-based online retail company between 1 December 2009 and 9 December 2011. The company primarily sells unique all-occasion gifts and many customers are wholesalers.
+
+The dataset contains 1,067,371 transaction records and 8 variables with detailed information about products, customers and transactions. It enables the analysis of:
+
+- Sales performance over time
+- Customer purchasing behaviour
+- Product performance
+- Geographic distribution of sales
+- Business key performance indicators (KPIs)
 
 ### Variables Used
 
 | Variable | Description |
 |-----------|-------------|
-| Invoice | Invoice number |
-| StockCode | Product code |
-| Description | Product description |
-| Quantity | Quantity purchased |
-| InvoiceDate | Transaction date and time |
-| Price | Unit price |
-| Customer ID | Customer identifier |
+| Invoice | Invoice number for each transaction |
+| StockCode | Unique product identifier |
+| Description | Product name or description |
+| Quantity | Number of units purchased |
+| InvoiceDate | Date and time of transaction |
+| Price | Unit price of each product |
+| Customer ID | Unique customer identifier |
 | Country | Customer country |
+
+### Dataset Summary
+
+| Item | Value |
+|-----------|-------------|
+| Source | UCI Machine Learning Repository |
+| Time Period | December 2009 – December 2011 |
+| Total Records | 1,067,371 |
+| Variables | 8 |
+| Industry | E-commerce / Online Retail |
 
 ---
 
