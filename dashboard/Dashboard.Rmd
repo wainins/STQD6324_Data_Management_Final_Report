@@ -1,0 +1,214 @@
+---
+title: "Online Retail Dashboard"
+output:
+  flexdashboard::flex_dashboard:
+    theme: bootstrap 
+    source: embed
+    orientation: rows
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+
+library(rmarkdown)
+library(flexdashboard)
+library(ggplot2) 
+library(plotly) 
+library(dplyr) 
+library(readr) 
+library(scales) 
+library(shiny)
+
+#Import Hive query results
+kpi <- read.csv("kpi.csv") 
+monthly_revenue <- read.csv("monthly_revenue.csv") 
+monthly_orders <- read.csv("monthly_orders.csv") 
+top_products_revenue <- read.csv("top_products_revenue.csv") 
+top_products_quantity <- read.csv("top_products_quantity.csv") 
+top_customers <- read.csv("top_customers.csv") 
+country_revenue <- read.csv("country_revenue.csv")
+
+#Colour palette 
+navy <- "#1B3A5C"       
+blue <- "#2E6DA4"        
+teal <- "#2E8B74"        
+gold <- "#C68A1F"        
+coral <- "#C1443D"       
+light_blue <- "#7FB0D9"  
+grey <- "#555555" 
+light_grey <- "#F5F7F9"
+
+# Plotly font 
+plot_font <- list( family = "Arial", size = 12, color = grey )
+```
+
+Row {data-height=160}
+-------------------------------------------------------------
+
+### Total Revenue
+
+```{r}
+valueBox(value = paste0("£",round(kpi$total_revenue[1] / 1000000, 2), "M"),
+  caption = "Total Revenue",icon = "fa-money",color = navy)
+```
+
+### Total Orders
+
+```{r}
+valueBox(value = comma(kpi$total_orders[1]),caption = "Total Orders",
+         icon = "fa-shopping-cart", color = blue)
+```
+
+### Total Customers
+
+```{r}
+valueBox(value = comma(kpi$total_customers[1]), caption = "Total Customers",
+         icon = "fa-users", color = teal)
+```
+
+### Total Products
+
+```{r}
+valueBox(value = comma(kpi$total_products[1]), caption = "Total Products",
+         icon = "fa-cubes", color = gold)
+```
+
+### Average Order Value
+
+```{r}
+valueBox(value = paste0("£", format(round(kpi$average_order_value[1], 2),
+                                    big.mark = ",", nsmall = 2)),
+         caption = "Average Order Value", icon = "fa-credit-card",
+         color = coral)
+```
+
+Row {data-height=500}
+-------------------------------------------------------------
+
+### Monthly Revenue Trend
+
+```{r}
+plot_ly(monthly_revenue, x = ~year_month, y = ~monthly_revenue,
+        type = "scatter", mode = "lines+markers",  fill = "tozeroy",
+        fillcolor = "rgba(79,129,164,0.25)",line = list(color = blue,width = 3),
+        marker = list(size = 7),
+        text = ~paste0("<b>Month:</b> ", year_month,"<br><b>Revenue:</b> £",
+                       format(round(monthly_revenue, 2), big.mark = ",")),
+        hoverinfo = "text", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Monthly Revenue Trend</b>",x = 0.5),
+         xaxis = list(title = "Month",tickangle = -45),
+         yaxis = list(title = "Revenue (£)",tickformat = ",.0f", 
+                      showgrid = FALSE, gridcolor = light_grey),
+         font = plot_font, margin = list(l = 80, r = 30, t = 70, b = 90))
+```
+
+### Top Products by Revenue
+
+```{r}
+product_revenue_plot <- top_products_revenue %>%arrange(total_revenue)
+
+plot_ly(product_revenue_plot, x=~total_revenue, 
+        y=~reorder(description, total_revenue), type = "bar", orientation = "h", 
+        marker = list(color = navy, line = list(color = "white", width = 1)),
+        text = ~paste0("<b>Product:</b> ", 
+                       description, "<br><b>Stock code:</b> ", 
+                       stock_code, "<br><b>Revenue:</b> £",
+                       format(round(total_revenue, 2),big.mark = ",")),
+        hoverinfo = "text", textposition = "none", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Top Products by Revenue</b>", x = 0.5),
+         xaxis = list(title = "Revenue (£)",tickformat = ",.0f", 
+                      showgrid = FALSE),
+         yaxis = list(title = "", automargin = TRUE, gridcolor = light_grey),
+         font = plot_font, margin = list(l = 230, r = 30, t = 70, b = 60))
+```
+
+Row {data-height=500}
+-------------------------------------------------------------
+
+### Monthly Order Trend
+
+```{r}
+plot_ly(monthly_orders, x = ~year_month, y = ~total_orders, type = "scatter",
+        mode = "lines+markers", fill = "tozeroy", 
+        fillcolor = "rgba(214,168,75,0.25)", line = list(color=gold,width = 3),
+        marker = list(size = 7, color = gold),
+        text = ~paste0("<b>Month:</b> ", year_month,"<br><b>Total orders:</b> ",
+                       format(total_orders, big.mark = ",")),
+        hoverinfo = "text", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Monthly Order Trend</b>", x = 0.5),
+         xaxis = list(title = "Month", tickangle = -45, showgrid = FALSE),
+         yaxis = list(title = "Number of Orders", tickformat = ",.0f", 
+                      gridcolor = light_grey), font = plot_font,
+         margin = list(l = 70, r = 30,t = 70, b = 90))
+```
+
+### Top Products by Quantity Sold
+
+```{r}
+product_quantity_plot <- top_products_quantity %>% arrange(total_quantity)
+
+plot_ly(product_quantity_plot, x = ~total_quantity,
+        y = ~reorder(description, total_quantity),
+        type = "bar", orientation = "h",
+        marker = list(color = teal, line = list(color = "white", width = 1)),
+        text = ~paste0("<b>Product:</b> ", description,
+                       "<br><b>Stock code:</b> ", stock_code,
+                       "<br><b>Quantity sold:</b> ", 
+                       format(total_quantity, big.mark = ",")),
+        hoverinfo = "text", textposition = "none", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Top Products by Quantity Sold</b>",x = 0.5),
+         xaxis = list(title = "Quantity Sold", tickformat = ",.0f", 
+                      showgrid = FALSE),
+         yaxis = list(title = "", automargin = TRUE, gridcolor = light_grey),
+         font = plot_font, margin = list(l = 230, r = 30, t = 70, b = 60))
+```
+
+Row {data-height=500}
+-------------------------------------------------------------
+
+### Top Customers by Spending
+
+```{r}
+customer_plot <- top_customers %>%  arrange(total_spending)
+
+plot_ly(customer_plot, x = ~total_spending, 
+        y = ~reorder(customer_id, total_spending),
+        type = "bar", orientation = "h", 
+        marker = list(color = coral, line = list(color = "white", width = 1)),
+        text = ~paste0("<b>Customer ID:</b> ", customer_id,
+                       "<br><b>Total spending:</b> £",
+                       format(round(total_spending, 2),big.mark = ",")),
+        hoverinfo = "text", textposition = "none", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Top Customers by Spending</b>", x = 0.5),
+         xaxis = list(title = "Total Spending (£)", tickformat = ",.0f",
+                      showgrid = FALSE),
+         yaxis = list(title = "Customer ID", automargin = TRUE, 
+                      gridcolor = light_grey), font = plot_font,
+         margin = list(l = 100, r = 30, t = 70, b = 60))
+```
+
+### Top Countries by Revenue
+
+```{r}
+country_plot <- country_revenue %>% arrange(total_revenue)
+
+plot_ly(country_plot, x = ~total_revenue, y = ~reorder(country, total_revenue),
+        type = "bar", orientation = "h", 
+        marker = list(color = blue, line = list(color = "white", width = 1)),
+        text = ~paste0("<b>Country:</b> ", country,
+                       "<br><b>Total revenue:</b> £",
+                       format(round(total_revenue, 2), big.mark = ",")),
+        hoverinfo = "text", textposition = "none", showlegend = FALSE) %>%
+  layout(plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+         title = list(text = "<b>Top Countries by Revenue</b>", x = 0.5),
+         xaxis = list(title = "Revenue (£)", tickformat = ",.0f", 
+                      showgrid = FALSE),
+         yaxis = list(title = "", automargin = TRUE, gridcolor = light_grey),
+         font = plot_font, margin = list(l = 130, r = 30, t = 70, b = 60))
+```
