@@ -329,21 +329,13 @@ library(shiny)
    - Convert the dataset from **XLSX** to **TSV** format (`online_retail_ii.tsv`).
 
 3. Start the **HDP Sandbox**.
-
 4. Upload the generated `online_retail_ii.tsv` file into HDFS.
-
 5. Execute the Apache Pig script (`online_retail_data_cleaning.pig`) to clean and preprocess the dataset.
-
 6. Execute **Hive Worksheet 1** (`worksheet1.sql`) to create the database, create the table and load the cleaned dataset into Apache Hive.
-
 7. Execute **Hive Worksheet 2** (`worksheet2.sql`) to perform business analysis and generate the analytical results.
-
 8. Export the Hive query results as CSV files.
-
 9. Place the exported CSV files in the `Dashboard` folder.
-
 10. Open `Dashboard.Rmd` in RStudio.
-
 11. Knit the R Markdown file to generate the interactive dashboard.
 
 ---
