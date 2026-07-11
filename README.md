@@ -318,17 +318,33 @@ library(shiny)
 ```
 ---
 
-## Running the Project
+## ## Running the Project
 
-1. Start the HDP Sandbox.
-2. Upload the TSV dataset into HDFS.
-3. Execute the Apache Pig script to clean the data.
-4. Execute Hive Worksheet 1 to create the database and load the cleaned dataset.
-5. Execute Hive Worksheet 2 to perform business analysis.
-6. Export the Hive query results as CSV files.
-7. Place the exported CSV files in the dashboard folder.
-8. Open `Dashboard.Rmd` in RStudio.
-9. Knit the R Markdown file to generate the interactive dashboard.
+1. Download the **Online Retail II** dataset (XLSX format) from the UCI Machine Learning Repository:
+
+   [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/502/online+retail+ii)↗️
+
+2. Execute the Python notebook (`data_preparation.ipynb`) to:
+   - Perform a simple exploratory data analysis (EDA).
+   - Convert the dataset from **XLSX** to **TSV** format (`online_retail_ii.tsv`).
+
+3. Start the **HDP Sandbox**.
+
+4. Upload the generated `online_retail_ii.tsv` file into HDFS.
+
+5. Execute the Apache Pig script (`online_retail_data_cleaning.pig`) to clean and preprocess the dataset.
+
+6. Execute **Hive Worksheet 1** (`worksheet1.sql`) to create the database, create the table and load the cleaned dataset into Apache Hive.
+
+7. Execute **Hive Worksheet 2** (`worksheet2.sql`) to perform business analysis and generate the analytical results.
+
+8. Export the Hive query results as CSV files.
+
+9. Place the exported CSV files in the `Dashboard` folder.
+
+10. Open `Dashboard.Rmd` in RStudio.
+
+11. Knit the R Markdown file to generate the interactive dashboard.
 
 ---
 
@@ -344,10 +360,6 @@ library(shiny)
 
 ```text
 STQD6324_Data_Management_Final_Report/
-│
-├── data/
-│   ├── Online_Retail_II.xlsx
-│   └── online_retail_ii.tsv
 │
 ├── python/
 │   └── data_preparation.ipynb
