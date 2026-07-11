@@ -140,7 +140,7 @@ The cleaning process reduced the dataset from 1,067,371 records to 779,425 recor
 
 ### Cleaned Output
 
-*(Insert Pig output screenshot)*
+*<img width="1249" height="718" alt="Image" src="https://github.com/user-attachments/assets/9c0d3371-515e-445f-8cc6-2ec0a731c584" />*
 
 ---
 
