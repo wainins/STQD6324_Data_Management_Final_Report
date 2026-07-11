@@ -343,7 +343,7 @@ library(shiny)
 ## Repository Structure
 
 ```text
-online-retail-business-intelligence/
+STQD6324_Data_Management_Final_Report/
 │
 ├── data/
 │   ├── Online_Retail_II.xlsx
@@ -364,6 +364,19 @@ online-retail-business-intelligence/
 │   └── Dashboard.html
 │
 ├── images/
+│   ├── Title.png
+│   ├── Pig_Script.png
+│   ├── Pig_Output.png
+│   ├── Hive_Script.png
+│   ├── Hive_Output.png
+│   ├── Dashboard.png
+│   ├── KPI.png
+│   ├── Monthly_Revenue_Trend.png
+│   ├── Monthly_Order_Trend.png
+│   ├── Top_Products_by_Revenue.png
+│   ├── Top_Products_by_Quantity_Sold.png
+│   ├── Top_Customers_by_Spending.png
+│   └──Top_Countries_by_Revenue.png
 │
 └── README.md
 ```
